@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Result</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+// Open a new window and display the table
+var newWindow = window.open();
+newWindow.document.write('<html>');
+newWindow.document.write('<head>');
+newWindow.document.write('<title>Student Result</title>');
+newWindow.document.write('<link rel="stylesheet" type="text/css" href="styles.css">');
+newWindow.document.write('</head>');
+newWindow.document.write('<body>');
+newWindow.document.write('<div class="result-container">');
+newWindow.document.write('<h2>Student Result</h2>');
+newWindow.document.write(table);
+newWindow.document.write('</div>');
+newWindow.document.write('</body>');
+newWindow.document.write('</html>');
+newWindow.document.close();
+<body>
+  <div class="result-container">
+    <h2>Student Result</h2>
+    <div id="resultTable"></div>
+  </div>
+</body>
+</html>

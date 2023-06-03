@@ -12,7 +12,7 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <title>Fanadesh</title>
+  <title>KSPSINGRAULI</title>
 
 
 
@@ -36,6 +36,131 @@
 
 
 </head>
+
+  <!-- Add Firebase SDK legacy script tags -->
+  <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
+  <style>
+    /* CSS Styles for the table */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    table th, table td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    table th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    /* Custom styles for student result table */
+    .result-table {
+      margin: auto;
+      max-width: 600px;
+    }
+
+    .result-table h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .result-table input[type="text"] {
+      padding: 6px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+
+    .result-table button {
+      padding: 8px 16px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .result-table button:hover {
+      background-color: #45a049;
+    }
+
+    .result-table .result-container {
+      margin-top: 20px;
+    }
+  </style>
+  <script>
+    // Initialize Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCckXtK3mwsQnensxY6FEFSsDrii4RfhNA",
+      authDomain: "result-2e968.firebaseapp.com",
+      projectId: "result-2e968",
+      storageBucket: "result-2e968.appspot.com",
+      messagingSenderId: "254160095128",
+      appId: "1:254160095128:web:3c689d11a830b741440ded",
+      measurementId: "G-EVQDTS6Q3Y"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    document.addEventListener("DOMContentLoaded", function() {
+      // Function to fetch data from Firebase
+      function fetchDataFromFirebase() {
+        var id = document.getElementById('inputId').value;
+        var firestore = firebase.firestore();
+
+        firestore.collection('result').doc(id).get()
+          .then(function(doc) {
+            if (doc.exists) {
+              var result = doc.data();
+              createTable(result);
+            } else {
+              document.getElementById('resultTable').innerHTML = "No result found for the given ID.";
+            }
+          })
+          .catch(function(error) {
+            console.log("Error getting document:", error);
+            document.getElementById('resultTable').innerHTML = "An error occurred while fetching data.";
+          });
+      }
+
+      // Function to create the table from JSON data
+      function createTable(data) {
+        var table = "<table><thead><tr>";
+        var tableBody = "<tbody>";
+
+        // Get the keys from the JSON object
+        var keys = Object.keys(data);
+
+        // Create table headers
+        keys.forEach(function(key) {
+          table += "<th>" + key + "</th>";
+        });
+
+        // Create table rows
+        tableBody += "<tr>";
+        keys.forEach(function(key) {
+          tableBody += "<td>" + data[key] + "</td>";
+        });
+        tableBody += "</tr>";
+
+        table += "</tr></thead>";
+        table += tableBody;
+        table += "</tbody></table>";
+
+        // Display the table
+        document.getElementById('resultTable').innerHTML = table;
+      }
+
+      // Attach event listener to the button
+      document.getElementById('fetchButton').addEventListener('click', fetchDataFromFirebase);
+    });
+  </script>
 
 <body class="sub_page">
   <div class="top_container ">
@@ -80,60 +205,41 @@
         </nav>
       </div>
     </header>
-
   </div>
   <!-- end header section -->
 
+  <div class="common_style">
 
-
-  <!-- contact section -->
-
-  <section class="contact_section ">
-
-    <div class="container">
-
-      <div class="row">
-        <div class="col-md-6">
-          <div class="d-flex justify-content-center d-md-block">
-            <h2>
-              Contact Us
-            </h2>
-          </div>
-          <form action="">
-            <div class="contact_form-container">
-              <div>
-                <div>
-                  <input type="text" placeholder="Name">
-                </div>
-                <div>
-                  <input type="email" placeholder="Email">
-                </div>
-                <div>
-                  <input type="text" placeholder="Phone Number">
-                </div>
-                <div class="mt-5">
-                  <input type="text" placeholder="Message">
-                </div>
-                <div class="mt-5">
-                  <button type="submit">
-                    send
-                  </button>
-                </div>
-              </div>
-
+    <!-- why section -->
+    <section class="why_section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="why_img-container">
+              <img src="images/why.png" alt="">
             </div>
-
-          </form>
-        </div>
-        <div class="col-md-6">
-          <div class="contact_img-box">
-            <img src="images/students.jpg" alt="">
+          </div>
+          <div class="col-md-6">
+            <div class="result-table">
+              <h2>Student Result</h2>
+              <label for="inputId">Enter ID:</label>
+              <input type="text" id="inputId">
+              <button id="fetchButton">Fetch Data</button>
+              <div class="result-container" id="resultTable"></div>
+            </div>
+            
           </div>
         </div>
       </div>
-    </div>
-  </section>
-  <!-- end contact section -->
+    </section>
+
+
+    <!-- end why section -->
+
+  </div>
+
+
+  <!-- info section -->
   <section class="info_section layout_padding-top">
     <div class="info_logo-box">
       <h2>
@@ -220,6 +326,8 @@
       </div>
     </div>
   </section>
+
+  <!-- end info section -->
 
   <!-- footer section -->
   <section class="container-fluid footer_section">
